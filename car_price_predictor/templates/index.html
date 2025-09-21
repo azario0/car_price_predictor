@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Price Predictor</title>
+    <!-- Bootstrap CSS for nice styling -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            transition: 0.3s;
+        }
+        .prediction-result {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #28a745;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header text-center bg-primary text-white">
+                <h1>🚗 Car Price Predictor</h1>
+            </div>
+            <div class="card-body">
+                <p class="card-text text-center text-muted">Enter the details of a car to get a price estimate.</p>
+
+                <!-- Prediction Form -->
+                <form action="/" method="post">
+                    <div class="row">
+                        <!-- Manufacturer Dropdown -->
+                        <div class="form-group col-md-6 mb-3">
+                            <label for="manufacturer">Manufacturer</label>
+                            <select class="form-control" id="manufacturer" name="manufacturer" required>
+                                {% for m in manufacturers %}
+                                <option value="{{ m }}" {% if request.form.get('manufacturer') == m %}selected{% endif %}>{{ m }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Model Dropdown -->
+                        <div class="form-group col-md-6 mb-3">
+                            <label for="model">Model</label>
+                            <select class="form-control" id="model" name="model" required>
+                                {% for m in models %}
+                                <option value="{{ m }}" {% if request.form.get('model') == m %}selected{% endif %}>{{ m }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Fuel Type Dropdown -->
+                        <div class="form-group col-md-6 mb-3">
+                            <label for="fuel_type">Fuel Type</label>
+                            <select class="form-control" id="fuel_type" name="fuel_type" required>
+                                {% for ft in fuel_types %}
+                                <option value="{{ ft }}" {% if request.form.get('fuel_type') == ft %}selected{% endif %}>{{ ft }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Engine Size Input -->
+                        <div class="form-group col-md-6 mb-3">
+                            <label for="engine_size">Engine Size (L)</label>
+                            <input type="number" class="form-control" id="engine_size" name="engine_size" step="0.1" min="0.5" max="8.0" required value="{{ request.form.get('engine_size', '1.8') }}">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                         <!-- Year of Manufacture Input -->
+                        <div class="form-group col-md-6 mb-3">
+                            <label for="year">Year of Manufacture</label>
+                            <input type="number" class="form-control" id="year" name="year" min="2000" max="2024" required value="{{ request.form.get('year', '2018') }}">
+                        </div>
+
+                        <!-- Mileage Input -->
+                        <div class="form-group col-md-6 mb-3">
+                            <label for="mileage">Mileage (km)</label>
+                            <input type="number" class="form-control" id="mileage" name="mileage" min="0" required value="{{ request.form.get('mileage', '50000') }}">
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg">Predict Price</button>
+                    </div>
+                </form>
+
+                <!-- Display Prediction Result -->
+                {% if prediction_text %}
+                <div class="alert alert-success mt-4 text-center" role="alert">
+                    <h2 class="prediction-result">{{ prediction_text }}</h2>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
