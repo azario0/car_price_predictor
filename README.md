@@ -79,6 +79,9 @@ Four different models were trained and evaluated. The **RandomForest Regressor**
 
 The high R² score of 0.9986 indicates that the RandomForest model explains almost all the variance in the car prices, making it highly reliable for this prediction task.
 
+## Tutorial
+https://softwarejournal.blog/blog/car-price-predictor-sklearn-flask-explained/
+
 ## License
 This project is licensed under the MIT License. See the `LICENSE` file for more details.
 
